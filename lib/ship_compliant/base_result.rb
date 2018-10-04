@@ -28,8 +28,10 @@ module ShipCompliant
     #   end
     def errors
       return [] if success?
+
       @errors ||= Array.wrap(response[:errors]).map do |error|
-        ErrorResult.new(error[:error])
+        data = error[:error].is_a?(Array) ? error[:error].first : error[:error]
+        ErrorResult.new(data)
       end
     end
 
